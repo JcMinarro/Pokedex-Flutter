@@ -5,29 +5,18 @@ class PokemonIndex {
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png";
   PokemonIndex({required this.id, required this.name});
 
-  @override
-  String toString() {
-    return "PokemonIndex(id: $id, name: $name)";
-  }
-
   factory PokemonIndex.fromJson(int id, Map<String, dynamic> json) {
     return PokemonIndex(id: id, name: json['name']);
   }
 }
 
-class Pokemon {
-  final int id;
-  final String name;
+class Pokemon extends PokemonIndex {
   final String color;
   final List<String> types;
 
-  String get picture =>
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png";
   Pokemon(
-      {required this.id,
-      required this.name,
-      required this.color,
-      required this.types});
+      {required id, required name, required this.color, required this.types})
+      : super(id: id, name: name);
 
   factory Pokemon.fromJson(String color, Map<String, dynamic> json) {
     List<String> types = [];

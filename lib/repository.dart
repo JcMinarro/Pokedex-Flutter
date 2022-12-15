@@ -4,11 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:pokedex/models.dart';
 
 class Repository {
-  Future<List<Pokemon>> getPokemons() async {
-    List<Pokemon> pokemons = [];
-    for (int i = 1; i <= 150; i++) {
-      pokemons.add(await getPokemon(i));
-    }
+  Future<List<PokemonIndex>> getPokemons() async {
+    List<PokemonIndex> pokemons = [];
+    var pokemonResponse = await http
+        .get(Uri.parse("https://pokeapi.co/api/v2/pokemon?limit=150"));
+    var asMap = jsonDecode(pokemonResponse.body)['results'].asMap();
+    var entries = asMap.entries;
+    entries.forEach((entry) =>
+        {pokemons.add(PokemonIndex.fromJson(entry.key + 1, entry.value))});
     return pokemons;
   }
 

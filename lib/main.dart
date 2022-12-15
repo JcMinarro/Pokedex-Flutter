@@ -60,15 +60,18 @@ class _PokedexPageState extends State<PokedexPage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: FutureBuilder<List<Pokemon>>(
+      body: FutureBuilder<List<PokemonIndex>>(
           future: repository.getPokemons(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var pokemons = snapshot.data!;
               return GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5),
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 1,
+                  ),
                   itemCount: pokemons.length,
+                  controller: ScrollController(),
                   itemBuilder: (context, index) => pokemons[index].toWidget());
             } else {
               return const Center(child: CircularProgressIndicator());
@@ -78,17 +81,21 @@ class _PokedexPageState extends State<PokedexPage> {
   }
 }
 
-extension PokemonCard on Pokemon {
+extension PokemonCard on PokemonIndex {
   Widget toWidget() {
-    return Stack(children: [
-      Card(
-        child: Image.network(picture),
+    return Card(
+      child: Center(
+        child: Column(children: [
+          Text(
+            name,
+            style: TextStyle(fontSize: 30),
+          ),
+          Image.network(
+            picture,
+            height: 100,
+          ),
+        ]),
       ),
-      Text(name),
-      ListView.builder(
-        itemCount: types.length,
-        itemBuilder: (context, index) => Text(types[index]),
-      )
-    ]);
+    );
   }
 }
