@@ -13,12 +13,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        routes: <String, WidgetBuilder>{
-          '/': (context) => const PokedexPage(title: 'Pokedex'),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(builder: (BuildContext context) {
+          switch (settings.name) {
+            case "/":
+              return const PokedexPage(title: "Pokedex");
+          }
+          throw UnimplementedError();
         });
   }
 }
