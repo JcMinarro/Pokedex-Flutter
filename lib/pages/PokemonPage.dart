@@ -52,7 +52,10 @@ class _PokemonPageState extends State<PokemonPage> {
             ];
           },
           body: TabBarView(
-            children: [Text("About"), Text("Base Stats")],
+            children: [
+              pokemon != null ? AboutTab(pokemon: pokemon!) : Placeholder(),
+              Text("Base Stats")
+            ],
           ),
         ),
       ),
@@ -90,5 +93,40 @@ extension BackgroundColor on String {
         return Colors.grey;
     }
     return Colors.white;
+  }
+}
+
+class AboutTab extends StatelessWidget {
+  final Pokemon pokemon;
+
+  const AboutTab({Key? key, required this.pokemon}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ListView(
+        children: [
+          _buildAboutRow("Type", pokemon.types.join(", ")),
+          _buildAboutRow("Height", "${pokemon.height} cm"),
+          _buildAboutRow("Weight", "${pokemon.weight} Kg"),
+          _buildAboutRow("Abilities", pokemon.abilities.join(", ")),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAboutRow(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, top: 16),
+      child: Row(
+        children: [
+          SizedBox(
+              width: 150,
+              child: Text(title,
+                  style: const TextStyle(fontSize: 24, color: Colors.grey))),
+          Text(value, style: const TextStyle(fontSize: 24, color: Colors.black))
+        ],
+      ),
+    );
   }
 }
