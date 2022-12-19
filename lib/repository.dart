@@ -18,10 +18,11 @@ class Repository {
   Future<Pokemon> getPokemon(id) async {
     var pokemonResponse =
         http.get(Uri.parse("https://pokeapi.co/api/v2/pokemon/$id"));
-    // var pokemonSpeciesResponse =
-    //     http.get(Uri.parse("https://pokeapi.co/api/v2/pokemon-species/$id"));
-    //
-    // var color = jsonDecode((await pokemonSpeciesResponse).body)['color'];
-    return Pokemon.fromJson("green", jsonDecode((await pokemonResponse).body));
+    var pokemonSpeciesResponse =
+        http.get(Uri.parse("https://pokeapi.co/api/v2/pokemon-species/$id"));
+
+    var color =
+        jsonDecode((await pokemonSpeciesResponse).body)['color']['name'];
+    return Pokemon.fromJson(color, jsonDecode((await pokemonResponse).body));
   }
 }

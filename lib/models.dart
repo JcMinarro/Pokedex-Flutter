@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class PokemonIndex {
   final int id;
   final String name;
@@ -13,6 +15,7 @@ class PokemonIndex {
 class Pokemon extends PokemonIndex {
   final String color;
   final List<String> types;
+  final Color staticColor = Colors.green;
 
   Pokemon(
       {required id, required name, required this.color, required this.types})
